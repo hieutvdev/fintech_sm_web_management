@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.n-from-item {
+  display: block !important;
+  grid-template-areas: none !important;
+  grid-template-rows: none !important;
+  grid-template-columns: none !important;
+}
