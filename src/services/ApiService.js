@@ -1,23 +1,9 @@
 import axios from 'axios'
 import { TokenService } from './TokenService'
-import { AUTH_API } from '@/constants/api/index.js'
+import { BASE_URL } from '@/constants/api/index.js'
 
-const apiClient2000 = axios.create({
-  baseURL: 'http://localhost:2000',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-const apiClient3000 = axios.create({
-  baseURL: 'http://localhost:3000',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-const authClient = axios.create({
-  baseURL: AUTH_API,
+const baseClient = axios.create({
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -37,30 +23,45 @@ const addAuthInterceptor = (client) => {
     },
   )
 
-  client.interceptors.response.use(
-    (response) => response,
+  client.interceptors.request.use(
+    (response) => {
+      console.log('response', response)
+      return response
+    },
     async (error) => {
-      if (error.response.status === 401) {
+      console.log('[RES ERRRRR]', error)
+      const originalRequest = error.config
+
+      if (error.response && error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
         const refreshToken = TokenService.getRefreshToken()
         if (refreshToken) {
           try {
-            const response = await authClient.post('/refresh-token', { token: refreshToken })
-            const newToken = response.data.token
+            const refreshResponse = await baseClient.post('/auth/refresh', {
+              refreshToken,
+            })
+            const newToken = refreshResponse.data.token
             TokenService.saveToken(newToken)
-            error.config.headers.Authorization = `Bearer ${newToken}`
-            return client.request(error.config)
+            originalRequest.headers.Authorization = `Bearer ${newToken}`
+            return client.request(originalRequest)
           } catch (refreshError) {
+            console.error('[Refresh Token Error]', refreshError)
             TokenService.removeToken()
+            window.location.href = 'auth/login'
             return Promise.reject(refreshError)
           }
+        } else {
+          TokenService.removeToken()
+          window.location.href = '/login'
         }
       }
       return Promise.reject(error)
     },
   )
+
+  return client
 }
 
-addAuthInterceptor(apiClient2000)
-addAuthInterceptor(apiClient3000)
+addAuthInterceptor(baseClient)
 
-export { apiClient2000, apiClient3000, authClient }
+export { baseClient }

@@ -1,8 +1,4 @@
-<script setup>
-import { AUTH_API } from '@/constants/api/index.js'
-
-console.log(AUTH_API)
-</script>
+<script setup></script>
 
 <template>
   <n-loading-bar-provider>

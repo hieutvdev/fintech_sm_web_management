@@ -2,15 +2,8 @@
   <n-space vertical>
     <!-- <n-space> <n-switch v-model:value="inverted" /> inverted </n-space> -->
     <n-layout>
-      <n-layout-header
-        class="h-[50px] flex items-center justify-between"
-        :inverted="inverted"
-        bordered
-      >
-        <div>HI</div>
-        <n-menu mode="horizontal" :inverted="inverted" :options="header_admin" />
-      </n-layout-header>
 
+      <HeaderMainLayoutCpn :inverted="inverted" />
       <!-- Body -->
       <n-layout has-sider>
         <n-layout-sider
@@ -21,7 +14,7 @@
           :width="240"
           :native-scrollbar="false"
           :inverted="inverted"
-          style="height: calc(100vh - 80px)"
+          style="height: calc(100vh - 100px)"
         >
           <n-menu
             :inverted="inverted"
@@ -36,18 +29,19 @@
         </n-layout-content>
       </n-layout>
 
-      <n-layout-footer style="height: 30px" :inverted="inverted" bordered>
-        Footer Footer Footer
-      </n-layout-footer>
+
+        <FooterMainLayoutCpn />
+
     </n-layout>
   </n-space>
 </template>
 
 <script setup lang="ts">
 import { navbar_admin } from '@/configs/admin/navbar_admin.config'
-import { header_admin } from '@/configs/admin/header_admin.config'
 
 import { ref } from 'vue'
+import FooterMainLayoutCpn from '@/layout/main_layout/components/FooterMainLayoutCpn.vue'
+import HeaderMainLayoutCpn from '@/layout/main_layout/components/HeaderMainLayoutCpn.vue'
 var inverted = ref(false)
 
 // [

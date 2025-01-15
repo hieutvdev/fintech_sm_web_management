@@ -34,61 +34,72 @@
           :label-width="80"
           :model="formValue"
           :rules="rules"
-          class="flex flex-col gap-1"
+          class="flex flex-col gap-3"
         >
-          <n-form-item prop="email" class="n-from-item">
-            <div
-              :class="{ 'flex flex-col gap-1': true }"
-              :style="{ width: windowWidth > 500 ? '400px' : windowWidth - 80 + 'px' }"
+          <div :class="{ 'xs:w-full sm:w-full md:w-[80%] flex flex-col gap-1 w-full': true }">
+            <label for="email" class="text-sm font-poppins text-fuchsia-900">Email</label>
+            <n-input
+              placeholder="Enter your email"
+              class="py-[4px] rounded-lg hover:outline-fuchsia-900 hover:border-fuchsia-800 w-full"
+              :style="{ '--n-border-focus': '1px solid #D946EF' }"
+              v-model:value="formValue.email"
             >
-              <label for="email" class="text-sm font-poppins text-fuchsia-900">Email</label>
-              <n-input
-                placeholder="Enter your email"
-                class="py-[4px] rounded-lg hover:outline-fuchsia-900 hover:border-fuchsia-800 w-full"
-                :style="{ '--n-border-focus': '1px solid #D946EF' }"
-                v-model:value="formValue.email"
-              >
-                <template #suffix>
-                  <n-icon :component="MailOutline" />
-                </template>
-              </n-input>
-            </div>
-          </n-form-item>
-          <n-form-item prop="password" class="n-from-item">
-            <div
-              :class="{ 'flex flex-col gap-1': true }"
-              :style="{ width: windowWidth > 500 ? '400px' : windowWidth - 80 + 'px' }"
+              <template #suffix>
+                <n-icon :component="MailOutline" />
+              </template>
+            </n-input>
+          </div>
+
+          <div :class="{ 'xs:w-full sm:w-full md:w-[80%] flex flex-col gap-1 w-full': true }">
+            <label for="password" class="text-sm font-poppins text-fuchsia-900">Password</label>
+            <n-input
+              :type="isPasswordVisible ? 'text' : 'password'"
+              placeholder="Enter your password"
+              class="py-[4px] rounded-lg hover:outline-fuchsia-900 hover:border-fuchsia"
+              :style="{ '--n-border-focus': '1px solid #D946EF' }"
+              v-model:value="formValue.password"
             >
-              <label for="password" class="text-sm font-poppins text-fuchsia-900">Password</label>
-              <n-input
-                :type="isPasswordVisible ? 'text' : 'password'"
-                placeholder="Enter your password"
-                class="py-[4px] rounded-lg hover:outline-fuchsia-900 hover:border-fuchsia"
-                :style="{ '--n-border-focus': '1px solid #D946EF' }"
-                v-model:value="formValue.password"
-              >
-                <template #suffix>
-                  <n-icon
-                    class="cursor-pointer hover:bg-gray-500 hover:bg-opacity-20 transition-all transition-duration-800 w-8 h-8 rounded-lg flex items-center justify-center"
-                    @click="isPasswordVisible = !isPasswordVisible"
-                    :component="isPasswordVisible ? Eye : EyeOff"
-                  />
-                </template>
-              </n-input>
-            </div>
-          </n-form-item>
-          <n-form-item>
-            <n-button
-              size="large"
-              @click="handleSubmit"
-              type="primary"
-              class="flex flex-col gap-1 py-2"
-              :style="{ width: windowWidth > 500 ? '400px' : windowWidth - 80 + 'px' }"
-            >
-              Sign In
-            </n-button>
-          </n-form-item>
+              <template #suffix>
+                <n-icon
+                  class="cursor-pointer hover:bg-gray-500 hover:bg-opacity-20 transition-all transition-duration-800 w-8 h-8 rounded-lg flex items-center justify-center"
+                  @click="isPasswordVisible = !isPasswordVisible"
+                  :component="isPasswordVisible ? Eye : EyeOff"
+                />
+              </template>
+            </n-input>
+          </div>
+          <div class="w-min flex gap-3 items-center justify-start">
+            <n-checkbox class="flex-shrink-0"></n-checkbox>
+            <span class="whitespace-nowrap">Remember me</span>
+          </div>
+
+          <n-button
+            size="large"
+            @click="handleSubmit"
+            type="primary"
+            class="xs:w-full sm:w-full md:w-[80%] flex flex-col gap-1 py-2 mt-2 font-poppins"
+          >
+            Login
+          </n-button>
         </n-form>
+        <div
+          class="xs:w-full sm:w-full md:w-[80%] flex justify-center items-center text-gray-500 text-sm"
+        >
+          <hr class="flex-grow border-gray-300" />
+          <span class="mx-2">OR</span>
+          <hr class="flex-grow border-gray-300" />
+        </div>
+
+        <div class="xs:w-full sm:w-full md:w-[80%] grid grid-cols-2 gap-3">
+          <n-button class="bg-orange-300 bg-opacity-40">
+            <n-icon :component="LogoGoogle" class="text-orange-600" />
+            <span class="ml-2 text-orange-600">Google</span>
+          </n-button>
+          <n-button class="bg-blue-300 bg-opacity-40">
+            <n-icon :component="LogoFacebook" class="text-blue-600" />
+            <span class="ml-2 text-blue-600">Facebook</span>
+          </n-button>
+        </div>
       </div>
       <div>
         <img
@@ -102,7 +113,7 @@
 </template>
 
 <script setup>
-import { HomeOutline, MailOutline, Eye, EyeOff } from '@vicons/ionicons5'
+import { HomeOutline, MailOutline, Eye, EyeOff, LogoGoogle, LogoFacebook } from '@vicons/ionicons5'
 import { ref } from 'vue'
 import { useNotification } from 'naive-ui'
 
@@ -110,7 +121,6 @@ const notification = useNotification()
 
 const formRef = ref(null)
 const isPasswordVisible = ref(false)
-const windowWidth = ref(window.innerWidth)
 
 const formValue = ref({
   email: '',
@@ -156,18 +166,6 @@ const handleSubmit = async (e) => {
     })
     return false
   }
-  // formRef.value.validate(async (valid) => {
-  //   if (valid) {
-  //
-  //   } else {
-  //     notification.error({
-  //       title: 'Error',
-  //       content: 'Invalid email or password',
-  //       duration: 200,
-  //     })
-  //     return false
-  //   }
-  // })
 }
 </script>
 
