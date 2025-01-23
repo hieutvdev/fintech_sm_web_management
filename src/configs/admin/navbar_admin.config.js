@@ -1,6 +1,7 @@
 import { NIcon } from 'naive-ui'
 import { h } from 'vue'
-import { BookOutline as BookIcon } from '@vicons/ionicons5'
+import { BookOutline as BookIcon, NewspaperOutline as ArticleIcon } from '@vicons/ionicons5'
+
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) })
@@ -24,6 +25,30 @@ const navbar_admin = [
       },
     ],
   },
+  {
+    label: 'Article',
+    key: 'article',
+    icon: renderIcon(ArticleIcon),
+    disabled: false,
+    children: [
+      {
+        label: 'List',
+        key: 'article-list',
+      },
+      {
+        label: 'Details',
+        key: 'article-details',
+      },
+      {
+        label: 'Create',
+        key: 'article-create',
+      },
+      {
+        label: 'Edit',
+        key: 'article-edit',
+      },
+    ]
+  }
 ]
 
 export { navbar_admin }

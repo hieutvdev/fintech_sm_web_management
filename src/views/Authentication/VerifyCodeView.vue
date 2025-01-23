@@ -1,6 +1,8 @@
 <template>
   <div class="w-full h-screen flex flex-col gap-5 items-center justify-center">
-    <div class="xs:w-full sm:w-full md:w-[700px] flex flex-col gap-4 items-center rounded-md shadow-sm">
+    <div
+      class="xs:w-full sm:w-full md:w-[700px] flex flex-col gap-4 items-center rounded-md shadow-sm"
+    >
       <span class="font-poppins text-lg font-semibold tracking-wide">Email Verification</span>
       <span class="font-poppins text-[12px] font-medium text-gray-400">
         We have sent a code to your email {{ email }}
@@ -45,7 +47,7 @@ const handleCode = (index) => {
 
   if (!/^\d$/.test(currentCode)) {
     verificationCode.value[`code${index + 1}`] = ''
-    
+
     error.value = 'Please enter only numbers'
     return
   }
@@ -74,5 +76,4 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

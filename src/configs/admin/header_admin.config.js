@@ -23,11 +23,11 @@ const header_admin = [
   },
   {
     label: 'Calendar',
-    key: 'calendar'
+    key: 'calendar',
   },
   {
     label: 'Notes',
-    key: 'notes'
+    key: 'notes',
   },
 ]
 

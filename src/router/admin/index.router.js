@@ -7,13 +7,12 @@ const admin_router_group = [
     component: MainLayoutView,
     children: [
       {
-        path: "/",
+        path: '/',
         name: 'admin-dashboard',
-        component: DashBoardView
-      }
-    ]
-
-  }
+        component: DashBoardView,
+      },
+    ],
+  },
 ]
 
 export default admin_router_group
