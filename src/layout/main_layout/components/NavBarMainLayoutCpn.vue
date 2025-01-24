@@ -28,7 +28,9 @@ const props = defineProps({
       :collapsed-icon-size="icon_size"
       :icon-size="navbar_icon_main_size"
       :options="navbar_admin"
-    />
+    >
+      
+    </n-menu>
   </n-layout-sider>
 </template>
 
